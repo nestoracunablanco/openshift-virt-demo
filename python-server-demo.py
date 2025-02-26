@@ -1,7 +1,24 @@
 import http.server
 import socketserver
+import logging
+import time
+import threading
 
 PORT = 8080
+
+logging.basicConfig(
+    filename='app.log',  # Log file name
+    level=logging.INFO,   # Log level
+    format='%(asctime)s - %(levelname)s - %(message)s'  # Log message format
+)
+
+def log_periodically():
+    while True:
+        logging.info("This is a periodic log message.")
+        time.sleep(1)  # Log every second
+
+# Start the logging thread
+threading.Thread(target=log_periodically, daemon=True).start()
 
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
